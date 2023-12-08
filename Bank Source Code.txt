@@ -1,0 +1,166 @@
+#include <iostream>
+#include <string>
+using namespace std;
+class Account
+{
+    int accNo;
+    string name;
+    string accType;
+    float bal;
+    static int count;
+
+public:
+    void addAcc()
+    {
+        cout << "Enter your name" << endl;
+        cin.ignore();
+        getline(cin, name);
+        int n;
+        do
+        {
+            cout << "Eter your choice for account type\n1. Savings\n2. Current" << endl;
+
+            cin >> n;
+        } while (n < 1 || n > 2);
+        switch (n)
+        {
+        case 1:
+            accType = "Savings Account";
+            break;
+        case 2:
+            accType = "Current Account";
+            int num;
+            do
+            {
+                cout << "You must deposit minimum 1000Rs. immediately";
+                cin >> num;
+            } while (num < 1000);
+            bal+=num;
+            break;
+        }
+        accNo = count++;
+        cout << "Account creation successful." << endl;
+    }
+    void withdraw()
+    {
+        cout << "Enter Account Number" << endl;
+        int n;
+        cin >> n;
+        if (accNo == n)
+        {
+            int money;
+            cout << "Enter amount to be withdrawn." << endl;
+            cin >> money;
+            if (money <= bal)
+            {
+                bal -= money;
+                cout << "Your current account balance is " << bal << endl;
+            }
+            else
+            {
+                cout << "Insufficient balance" << endl;
+                
+            }
+        }
+        else
+        {
+            cout << "Wrong account number." << endl;
+        }
+    }
+    void deposit()
+    {
+        cout << "Enter Account Number" << endl;
+        int n;
+        cin >> n;
+        if (accNo == n)
+        {
+            int money;
+            cout << "Enter amount to be deposited." << endl;
+            cin >> money;
+            bal += money;
+            cout << "Your current account balance is " << bal << endl;
+        }
+        else
+        {
+            cout << "Incorrect account number." << endl;
+        }
+    }
+    void dispInd()
+    {
+        cout << "Enter Account Number" << endl;
+        int n;
+        cin >> n;
+        if (accNo == n)
+        {
+        cout << "Name: " << name << endl;
+        cout << "Account number " << accNo << endl;
+        cout << "Current Balance " << bal << endl;
+        cout << "Account type" << accType << endl;
+        }
+        else cout<<"Invalid account number."<<endl;
+    }
+    void dispAll()
+    {
+
+        cout << "Name: " << name << endl;
+        cout << "Account number " << accNo << endl;
+        cout << "Current Balance " << bal << endl;
+        cout << "Account type" << accType << endl;
+    }
+};
+int Account::count = 1;
+
+int main()
+{
+    static int cnt = -1;
+    Account *obj[100];
+    while (true)
+    {
+        int choice;
+        do
+        {
+
+            cout << "Welcome in PNB\n choose your requirement." << endl;
+            cout << "1. Add Account\n 2. Withdraw\n 3. Deposit\n 4. Display your info\n 5. Display all\n 6. Exit" << endl;
+            cin >> choice;
+        } while (choice < 1 || choice > 6);
+        switch (choice)
+        {
+        case 1:
+            cnt++;
+            obj[cnt] = new Account();
+            obj[cnt]->addAcc();
+            break;
+        case 2:
+            obj[cnt]->withdraw();
+            break;
+        case 3:
+            obj[cnt]->deposit();
+            break;
+        case 4:
+            obj[cnt]->dispInd();
+            break;
+        case 5:
+            for (int j = 0; j <= cnt; j++)
+            {
+                obj[cnt]->dispAll();
+                cout << "\n\n\n"
+                     << endl;
+            }
+                break;
+            case 6:
+           
+            cout << "Good Bye!!" << endl;
+            for (int i = 0; i <= cnt; i++)
+            {
+                delete obj[cnt];
+            }
+            exit(0);
+            }
+            
+
+            
+        }
+
+        return 0;
+}
